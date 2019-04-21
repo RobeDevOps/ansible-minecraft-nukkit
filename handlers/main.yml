@@ -1,0 +1,9 @@
+---
+- name: reboot server
+  reboot:
+
+- name: restart minecraft
+  systemd:
+    name: "{{ minecraft_service_name }}"
+    state: restarted
+    daemon_reload: yes

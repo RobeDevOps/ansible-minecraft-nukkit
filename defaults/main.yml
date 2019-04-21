@@ -1,0 +1,27 @@
+---
+minecraft_home_directory: /opt/minecraft
+minecraft_build_url: https://go.pimylifeup.com/3xsPQA/nukkit
+minecraft_jar_name: nukkit
+
+minecraft_packages:
+  - oracle-java8-jdk
+  # - netatalk
+  # - avahi-daemon
+
+# Resources
+minecraft_memory_limit: 16
+minecraft_java_xms: 512M
+minecraft_java_xmx: 1008M
+
+# Server properties
+minecraft_level_name: world
+minecraft_max_players: 3
+minecraft_view_distance: 5
+minecraft_motd: "Vennon Server"
+minecraft_server_ip: 192.168.0.13
+minecraft_server_port: 19132
+
+# Service configuration
+minecraft_service_name: minecraft.service
+minecraft_service_home: /lib/systemd/system
+minecraft_service_path: "{{ minecraft_service_home }}/{{ minecraft_service_name }}"

@@ -1,0 +1,78 @@
+---
+- name: Add java repository
+  template:
+    src: webupd8team-java.list.j2
+    dest: /etc/apt/sources.list.d/webupd8team-java.list
+
+- name: Copy repo key
+  template:
+    src: key.txt
+    dest: /tmp/key.txt
+  register: repo_key
+
+- name: add repos key
+  shell: apt-key add key.txt
+  args:
+    chdir: /tmp
+  when: repo_key is changed
+
+- name: Update cache
+  apt: name=* update_cache=yes
+
+- name: Install packages
+  apt:
+    name: "{{ minecraft_packages }}"
+    state: present
+
+- name: Resize partition
+  shell: raspi-config --expand-rootfs
+  run_once: true
+
+- name: Create build directory
+  file:
+    path: "{{ minecraft_home_directory }}"
+    state: directory
+
+- name: Adding RAM memory
+  lineinfile:
+    path: /boot/config.txt
+    line: 'gpu_mem={{ minecraft_memory_limit }}'
+  notify: reboot server
+
+- name: Download jar server
+  get_url:
+    url: "{{ minecraft_build_url }}"
+    dest: "{{ minecraft_home_directory }}/{{ minecraft_jar_name }}.jar"
+
+- name: Create {{ minecraft_service_name }}
+  template:
+    src: "{{ minecraft_service_name }}.j2"
+    dest: "{{ minecraft_service_path }}"
+  notify: restart minecraft
+
+- name: Generate Files & Configuration
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ minecraft_home_directory }}/{{ item }}"
+  with_items:
+    - server.properties
+    # - eula.txt
+  notify: restart minecraft
+
+- name: Create .minecraft 
+  file:
+    name: /root/.minecraft
+    state: directory
+
+- name: Generate Options
+  template:
+    src: options.txt.j2
+    dest: "/root/.minecraft/options.txt"
+  notify: restart minecraft
+
+- meta: flush_handlers
+
+- name: Start Minecraft
+  systemd:
+    name: "{{ minecraft_service_name }}"
+    state: started

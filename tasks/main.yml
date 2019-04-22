@@ -1,5 +1,4 @@
 ---
-
 - name: Add java repository
   template:
     src: webupd8team-java.list.j2

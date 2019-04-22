@@ -11,9 +11,12 @@
   register: repo_key
 
 - name: add repos key
-  shell: apt-key add key.txt
+  shell: |
+    set -o pipefail
+    cat key.txt | apt-key add -
   args:
     chdir: /tmp
+    executable: /bin/bash
   when: repo_key is changed
 
 - name: Update cache

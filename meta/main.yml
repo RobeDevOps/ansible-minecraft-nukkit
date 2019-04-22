@@ -1,0 +1,21 @@
+galaxy_info:
+  author: Roberto Cardenas Isla
+  description: It role installs Minecraft Nukkit version on Raspberry Pi B3+.
+  company: Own project
+
+  license: BSD
+
+  min_ansible_version: 2.7
+
+  platforms:
+  - name: Debian
+    versions:
+    - stretch
+
+  galaxy_tags:
+    - raspberrypi
+    - raspberry
+    - minecraft
+    - nukkit
+
+dependencies: []

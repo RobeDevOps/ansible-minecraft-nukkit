@@ -26,3 +26,4 @@ minecraft_server_port: 19132
 minecraft_service_name: minecraft.service
 minecraft_service_home: /lib/systemd/system
 minecraft_service_path: "{{ minecraft_service_home }}/{{ minecraft_service_name }}"
+

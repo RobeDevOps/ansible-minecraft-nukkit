@@ -55,11 +55,8 @@
 
 - name: Generate Files & Configuration
   template:
-    src: "{{ item }}.j2"
-    dest: "{{ minecraft_home_directory }}/{{ item }}"
-  with_items:
-    - server.properties
-    # - eula.txt
+    src: server.properties.j2
+    dest: "{{ minecraft_home_directory }}/server.properties"
   notify: restart minecraft
 
 - name: Create .minecraft

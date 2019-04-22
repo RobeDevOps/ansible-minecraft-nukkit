@@ -59,7 +59,7 @@
     # - eula.txt
   notify: restart minecraft
 
-- name: Create .minecraft 
+- name: Create .minecraft
   file:
     name: /root/.minecraft
     state: directory
